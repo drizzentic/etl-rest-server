@@ -1,7 +1,6 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
 var _ = require('underscore');
-var moment = require('moment');
 module.exports = function () {
 
     return {
@@ -137,12 +136,12 @@ module.exports = function () {
                     s += column;
                     if (f === "start") s += " >= ?";
                     else if (f === "end") s += " <= ?";
-                    elses += " like ?";
+                    else s += " like ?";
                     vals.push(item.filters[f]);
                     s += " AND ";
                 }
             });
-            s = s.substring(0, s.length - 5)
+            s = s.substring(0, s.length - 5);
             if (s !== "")
                 s = "(" + s + ")";
             console.log(s);
@@ -241,7 +240,7 @@ module.exports = function () {
                 10206: "DURIE-SALMON SYSTEM",
                 9851: "STAGE 0",
                 9852: "STAGE I",
-                9853: "STAGE IA", 
+                9853: "STAGE IA",
                 9854: "STAGE IB",
                 9855: "STAGE IC",
                 9856: "STAGE II",
