@@ -30,91 +30,39 @@ var programVisitEncounterResolver = require('./resolve-program-visit-encounter-I
 var imagingService = require('./service/radilogy-imaging.service');
 var oncologyReportsService = require('./oncology-reports/oncology-reports-service');
 var pocEidPayloadHelper = require('./app/lab-integration/utils/poc-eid-payload-helper.js');
-import { LabSyncService } from './app/lab-integration/lab-sync-service';
-import { LabClient } from './app/lab-integration/utils/lab-client';
-import {
-    MonthlyScheduleService
-} from './service/monthly-schedule-service';
-import {
-    PatientStatusChangeTrackerService
-} from './service/patient-status-change-tracker-service';
-import {
-    clinicalArtOverviewService
-} from './service/clinical-art-overview.service';
-import { labOrdersService } from './service/lab-orders.service';
+import {LabSyncService} from './app/lab-integration/lab-sync-service';
+import {LabClient} from './app/lab-integration/utils/lab-client';
+import {MonthlyScheduleService} from './service/monthly-schedule-service';
+import {PatientStatusChangeTrackerService} from './service/patient-status-change-tracker-service';
+import {clinicalArtOverviewService} from './service/clinical-art-overview.service';
+import {labOrdersService} from './service/lab-orders.service';
 
-import {
-    hivComparativeOverviewService
-} from './service/hiv-comparative-overview.service';
-import {
-    clinicalPatientCareStatusOverviewService
-} from './service/clinical-patient-care-status-overview';
-import {
-    SlackService
-} from './service/slack-service';
-import {
-    Moh731Service
-} from './service/moh-731/moh-731.service';
-import {
-    PatientRegisterReportService
-} from './service/patient-register-report.service';
-import {
-    HivSummaryIndicatorsService
-} from './app/reporting-framework/hiv/hiv-summary-indicators.service';
-import {
-    HivSummaryMonthlyIndicatorsService
-} from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
-import {
-    PatientMonthlyStatusHistory
-} from './service/patient-monthly-status-history';
-import {
-    cohortUserService
-} from './service/cohort-user.service.js';
-import {
-    patientsRequiringVLService
-} from './service/patients-requiring-viral-load.service';
-import {
-    patientCareCascadeService
-} from './service/patient-care-cascade-report.service';
+import {hivComparativeOverviewService} from './service/hiv-comparative-overview.service';
+import {clinicalPatientCareStatusOverviewService} from './service/clinical-patient-care-status-overview';
+import {SlackService} from './service/slack-service';
+import {PatientRegisterReportService} from './service/patient-register-report.service';
+import {HivSummaryIndicatorsService} from './app/reporting-framework/hiv/hiv-summary-indicators.service';
+import {HivSummaryMonthlyIndicatorsService} from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
+import {PatientMonthlyStatusHistory} from './service/patient-monthly-status-history';
+import {cohortUserService} from './service/cohort-user.service.js';
+import {patientsRequiringVLService} from './service/patients-requiring-viral-load.service';
+import {patientCareCascadeService} from './service/patient-care-cascade-report.service';
+import {patientMedicationHistService} from './service/patient-medication-history.service';
+import {PatientMedicalHistoryService} from './service/patient-medical-history.service';
+
+import {Moh731Report} from './app/reporting-framework/hiv/moh-731.report';
+import {BreastCancerMonthlySummaryService} from './service/breast-cancer-monthly-summary.service';
+import {CervicalCancerMonthlySummaryService} from './service/cervical-cancer-monthly-summary.service';
+
+import {LungCancerMonthlySummaryService} from './service/lung-cancer-monthly-summary.service';
+import {PatientlistMysqlReport} from './app/reporting-framework/patientlist-mysql.report';
+import {BaseMysqlReport} from './app/reporting-framework/base-mysql.report';
+import {CDMReportingService} from './service/cdm/cdm-reporting.service';
+import {PatientReferralService} from './service/patient-referral.service';
+import {CombinedBreastCervicalCancerMonthlySummary} from './service/combined-breast-cervical-cancer-monthly-summary.service';
+import {LungCancerTreatmentSummary} from './service/lung-cancer-treatment-summary.service';
+
 var patientReminderService = require('./service/patient-reminder.service.js');
-import {
-    patientMedicationHistService
-} from './service/patient-medication-history.service';
-import {
-    PatientMedicalHistoryService
-} from './service/patient-medical-history.service';
-
-import {
-    Moh731Report
-} from './app/reporting-framework/hiv/moh-731.report';
-import {
-    BreastCancerMonthlySummaryService
-} from './service/breast-cancer-monthly-summary.service';
-import {
-    CervicalCancerMonthlySummaryService
-} from './service/cervical-cancer-monthly-summary.service';
-
-import {
-    LungCancerMonthlySummaryService
-} from './service/lung-cancer-monthly-summary.service';
-import {
-    PatientlistMysqlReport
-} from './app/reporting-framework/patientlist-mysql.report';
-import {
-    BaseMysqlReport
-} from './app/reporting-framework/base-mysql.report';
-import {
-    CDMReportingService
-} from './service/cdm/cdm-reporting.service';
-import {
-    PatientReferralService
-} from './service/patient-referral.service';
-import { 
-    CombinedBreastCervicalCancerMonthlySummary 
-} from './service/combined-breast-cervical-cancer-monthly-summary.service';
-import {
-     LungCancerTreatmentSummary
-     } from './service/lung-cancer-treatment-summary.service';
 
 
 module.exports = function () {
@@ -368,7 +316,7 @@ module.exports = function () {
                                 .then((result) => {
                                     let locationIds = result;
                                     request.query.locations = locationIds;
-                                    let combineRequestParams = Object.assign(request.query, request.params)
+                                    let combineRequestParams = Object.assign(request.query, request.params);
                                     let service = new MonthlyScheduleService();
                                     service.getMonthlyScheduled(combineRequestParams).then((result) => {
                                         reply(result);
@@ -1402,8 +1350,10 @@ module.exports = function () {
                                 .description("The end date to filter by"),
                             programUuids: Joi.string()
                                 .optional()
-                                .description("The program to filter by")
-
+                                .description("The program to filter by"),
+                            department: Joi.string()
+                                .optional()
+                                .description("The department to filter by")
                         }
                     }
                 }
@@ -1466,7 +1416,10 @@ module.exports = function () {
                                 .description("The program to filter by"),
                             limit: Joi.string()
                                 .optional()
-                                .description("The limit to indicate number of rows")
+                                .description("The limit to indicate number of rows"),
+                            department: Joi.string()
+                                .optional()
+                                .description("The department to filter by")
 
                         }
                     }
@@ -1525,7 +1478,7 @@ module.exports = function () {
                     auth: 'simple',
                     plugins: {},
                     handler: function (request, reply) {
-                        console.log('xxxxxxxxxxxx', request)
+                        // console.log('xxxxxxxxxxxx', request)
                         patientReferralDao.updatePatientReferralNotification(request.params['patientReferralId'], request.payload)
                             .then(function (updatedPatientReferral) {
                                 reply(updatedPatientReferral);
@@ -2765,7 +2718,7 @@ module.exports = function () {
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
                                 }).catch((error) => {
-                                    console.error('Error loading HIV Summary:', error)
+                                    console.error('Error loading HIV Summary:', error);
                                     reply(error);
                                 });
                             });
@@ -3369,7 +3322,7 @@ module.exports = function () {
                             }).then((result)=>{
                                 reply(result);
                             }).catch((error) => {
-                                let errorObject = JSON.parse(error.error)
+                                let errorObject = JSON.parse(error.error);
                                 console.error('Error',errorObject);
                                 reply(errorObject.error).code(error.statusCode);
                             });
