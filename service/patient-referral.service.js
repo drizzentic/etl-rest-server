@@ -2,15 +2,9 @@ const dao = require('../etl-dao');
 const Promise = require("bluebird");
 const Moment = require('moment');
 const _ = require('lodash');
-import {
-    BaseMysqlReport
-} from '../app/reporting-framework/base-mysql.report'
-import {
-    PatientlistMysqlReport
-} from '../app/reporting-framework/patientlist-mysql.report'
-import {
-    PatientReferralAggregateService
-} from './patient-referral-aggregate.service'
+import {PatientlistMysqlReport} from '../app/reporting-framework/patientlist-mysql.report'
+import {PatientReferralAggregateService} from './patient-referral-aggregate.service'
+
 export class PatientReferralService {
 
 

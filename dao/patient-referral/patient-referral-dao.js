@@ -21,7 +21,7 @@ module.exports = def;
 
 function createPatientReferral(newPatientReferral) {
     return new Promise(function (resolve, reject) {
-        var requiredFieldsCheck = hasRequiredReferralFields(newPatientReferral)
+        var requiredFieldsCheck = hasRequiredReferralFields(newPatientReferral);
 
         if (!requiredFieldsCheck.isValid) {
             return reject(requiredFieldsCheck);
@@ -53,13 +53,13 @@ function createPatientReferral(newPatientReferral) {
                                         .toString();
                                     console.log('-------->', query);
                                     conn.query(query, {}, function (err, rows, fields) {
-                                        console.log(err)
+                                        console.log(err);
                                         if (err) {
                                             reject('Error updating resource');
                                         }
                                         else {
 
-                                            var resolvedFieldsCheck = checkResolvedReferralFields(newPateintReferral)
+                                            var resolvedFieldsCheck = checkResolvedReferralFields(newPateintReferral);
                                             if (!resolvedFieldsCheck.isValid) {
                                                 return reject(resolvedFieldsCheck);
                                             } 
@@ -80,7 +80,7 @@ function createPatientReferral(newPatientReferral) {
                                     });
                                 })
                                 .catch(function (err) {
-                                    console.log(err)
+                                    console.log(err);
                                     reject('Error establishing connection to MySql Server for updated resource');
                                 });
                         }
@@ -166,7 +166,7 @@ function getPatientReferral(patientReferralId) {
 
                 conn.query(query, {}, function (err, rows, fields) {
                     if (err) {
-                        console.log(err)
+                        console.log(err);
                         reject('Error querying to get patient referral by Id server');
                     }
                     else {
@@ -256,7 +256,7 @@ function validateCreateReferralPayload(patientReferralPayload) {
             errors: []
         };
 
-        var resolvedFieldsCheck = checkResolvedReferralFields(patientReferralPayload)
+        var resolvedFieldsCheck = checkResolvedReferralFields(patientReferralPayload);
              if (!resolvedFieldsCheck.isValid) {
                      return reject(resolvedFieldsCheck);
             }
@@ -405,7 +405,7 @@ function findPatientReferral(encounterId, providerId,referredToLocationId,referr
                         .toString();
     
                     conn.query(query, {}, function (err, rows, fields) {
-                        console.log(err)
+                        console.log(err);
                         if (err) {
                             reject('Error querying to find if duplicate record exists server');
                         }
@@ -416,7 +416,7 @@ function findPatientReferral(encounterId, providerId,referredToLocationId,referr
                     });
                 })
                 .catch(function (err) {
-                    console.log(err)
+                    console.log(err);
                     reject('Error establishing connection to MySql Server find duplicate');
                 });
         });
@@ -453,7 +453,7 @@ function getPatientReferralStats(providerId,startDate,endDate) {
                     .toString();
 
                 conn.query(query, {}, function (err, rows, fields) {
-                    console.log(err)
+                    console.log(err);
                     if (err) {
                         reject('Error querying to find if duplicate record exists server');
                     }
@@ -464,7 +464,7 @@ function getPatientReferralStats(providerId,startDate,endDate) {
                 });
             })
             .catch(function (err) {
-                console.log(err)
+                console.log(err);
                 reject('Error establishing connection to MySql Server find duplicate');
 
             });
@@ -486,7 +486,7 @@ function getPatientReferralStats(providerId,startDate,endDate) {
     
                     conn.query(query, {}, function (err, rows, fields) {
                         if (err) {
-                            console.log(err)
+                            console.log(err);
                             resolve('Error querying server Encounter');
                         }
                         else {
