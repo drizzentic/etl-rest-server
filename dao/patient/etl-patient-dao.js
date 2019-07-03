@@ -294,8 +294,7 @@ module.exports = function () {
         report.generateReport().then(function (results) {
             try {
                 if (results.results.results.length > 0) {
-                    var processedResults = patientReminderService.generateReminders(results.results.results, []);
-                    results.result = processedResults;
+                    results.result = patientReminderService.generateReminders(results.results.results, []);
                 } else {
                     results.result = {
                         person_uuid: combineRequestParams.person_uuid,
