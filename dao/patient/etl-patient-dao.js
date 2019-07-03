@@ -92,7 +92,6 @@ module.exports = function () {
 
         getOncologyPatientReport(request, queryParts).then((data) => {
             let oncSummary = data;
-
             _.each(oncSummary.result, (summary) => {
                 summary.diagnosis = helpers.getConceptName(summary.diagnosis);
                 summary.diagnosis_method = helpers.getConceptName(summary.diagnosis_method);
