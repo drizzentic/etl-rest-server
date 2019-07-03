@@ -451,6 +451,10 @@
           "display": "DEATHREPORT"
         },
         {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
+        },
+        {
           "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
           "display": "GENCONSULTATION"
         }
@@ -744,7 +748,7 @@
           "value": null,
           "answers": [{
               "value": "positive",
-            "label": "Yes"
+              "label": "Yes"
             },
             {
               "value": "negative",
@@ -870,8 +874,7 @@
             "display": "MDTFORM"
           }
         ]
-      },
-      {
+      }, {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
         "message": "Patient must not have prior clinical encounter.",
         "allowedIf": "age > 2 && !hasPreviousInitialVisit",
@@ -963,7 +966,7 @@
       {
         "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "hasPreviousInitialVisit",
+        "allowedIf": "hasPreviousInitialVisit && !isEnrolledInViremiaPMTCT",
         "name": "PMTCT Postnatal Return Visit",
         "encounterTypes": [{
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
@@ -1838,6 +1841,106 @@
       }
     ]
   },
+  "142939b0-28a9-4649-baf9-a9d012bf3b3d": {
+    "name": "BREAST CANCER SCREENING PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [{
+      "uuid": "55d8d186-3f74-43ad-9e40-eb16bb52b596",
+      "name": "Breast Cancer Screening ",
+      "encounterTypes": [{
+          "uuid": "e856b2ac-fe35-41d6-a9aa-2b2679092763",
+          "display": "BREASTCANCERSCREENING"
+        },
+        {
+          "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
+          "display": "ONCOLOGYSCREENINGTRIAGE"
+        },
+        {
+          "uuid": "a4c4dacc-11ff-4301-99a4-88d52c1390d5",
+          "display": "ONCOLOGYCASEMANAGEMENT"
+        },
+        {
+          "uuid": "5bdb1b5d-9b2d-4c62-a4cd-752f203d6e5b",
+          "display": "CLINICALBREASTEXAM"
+        },
+        {
+          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+          "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
+        },
+        {
+          "uuid": "e49a203a-068a-4d6b-b351-f40d9384170e",
+          "display": "BREASTCANCERASSESSMENT"
+        }
+      ]
+    }],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "referral": [{
+          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+          "name": "Oncology POC Screening Referral Form V1.0",
+          "required": true
+        }]
+      }
+    }
+  },
+  "cad71628-692c-4d8f-8dac-b2e20bece27f": {
+    "name": "CERVICAL CANCER SCREENING PROGRAM",
+    "dataDependencies": [
+      "patient"
+    ],
+    "enrollmentOptions": {
+      "enrollIf": "gender != 'M'",
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "referral": [{
+          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+          "name": "Oncology POC Screening Referral Form V1.0",
+          "required": true
+        }]
+      }
+    },
+    "incompatibleWith": [],
+    "visitTypes": [{
+      "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
+      "name": "Cervical Cancer Screening ",
+      "encounterTypes": [{
+          "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
+          "display": "ONCOLOGYDYSPLASIA"
+        },
+        {
+          "uuid": "00da8227-e7da-43c2-99b2-a4f237dd3924",
+          "display": "GYNPATHOLOGYRESULTS "
+        },
+        {
+          "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
+          "display": "ONCOLOGYSCREENINGTRIAGE"
+        },
+        {
+          "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+          "display": "ONCOLOGYVIA"
+        },
+        {
+          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+          "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
+        }
+      ]
+    }]
+  },
   "43b42170-b3ce-4e03-9390-6bd78384ac06": {
     "name": "GYN-ONCOLOGY TREATMENT PROGRAM",
     "dataDependencies": [
@@ -1873,6 +1976,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
         }
 
       ]
@@ -1904,6 +2011,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
         }
       ]
     }]
@@ -1930,6 +2041,18 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
+        },
+        {
+          "uuid": "7c21df85-c928-4dc9-93d9-5dd1e8101d32",
+          "display": "LUNGCANCERSCREENING"
+        },
+        {
+          "uuid": "c01fba63-0c54-43c9-8769-af7f48aefb5c",
+          "display": "LUNGCANCERSCREENINGRESULT"
         }
       ]
     }]
@@ -1960,6 +2083,14 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
+        },
+        {
+          "uuid": "bb1ad67a-5363-42fd-a53e-ba0047eb431c",
+          "display": "SICKLECELLSCREENING"
         }
       ]
     }]
@@ -1990,6 +2121,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
         }
       ]
     }]
@@ -2020,6 +2155,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+          "display": "DERMATOLOGYREFERRAL"
         }
       ]
     }]
@@ -2722,8 +2861,8 @@
     },
     "visitTypes": [{
         "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
-      "name": "Viremia Visit",
-      "allowedIf": "!isEnrolledInViremiaPMTCT",
+        "name": "Viremia Visit",
+        "allowedIf": "!isEnrolledInViremiaPMTCT",
         "encounterTypes": [{
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
@@ -2878,18 +3017,15 @@
         "encounterTypes": [{
           "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
           "display": "HEIFOLLOWUP"
-        },
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-            "display": "DEATHREPORT"
-          },
-          {
-            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
-            "display": "OUTREACHFIELDFU"
+        }, {
+          "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+          "display": "HIVTRIAGE"
+        }, {
+          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+          "display": "DEATHREPORT"
+        }, {
+          "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+          "display": "OUTREACHFIELDFU"
         }]
       },
       {
@@ -3011,15 +3147,15 @@
       "uuid": "f13f49ca-36b3-4abb-a24e-1776803ca69b",
       "name": "GROUP CARE VISIT",
       "encounterTypes": [{
-        "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
-        "display": "BIGPICADULTRETURN"
+          "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
+          "display": "BIGPICADULTRETURN"
         }
 
       ]
     }]
 
   },
-  "418fe011-a903-4862-93d4-5e7c84d9c253": {
+    "418fe011-a903-4862-93d4-5e7c84d9c253": {
     "name": "ANTICOAGULATION TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
@@ -3027,12 +3163,10 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [
-      {
-        "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
-        "name": "Anticoagulation Treatment Visit",
-        "encounterTypes": [
-          {
+    "visitTypes": [{
+      "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
+      "name": "Anticoagulation Treatment Visit",
+      "encounterTypes": [{
             "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
             "display": "ANTICOAGULATIONINITIAL"
           },
@@ -3049,8 +3183,7 @@
             "display": "DEATHREPORT"
           }
         ]
-      }
-    ]
+    }]
   },
   "62741bb8-949e-4acc-9e38-50d9d874c1fb": {
     "name": "BI KUZA AFYA PROGRAM",
@@ -3114,127 +3247,17 @@
     "dataDependencies": [
     ],
     "incompatibleWith": [],
-    "visitTypes": [
-      {
+    "visitTypes": [{
         "uuid": "0af25783-0446-48ac-9690-d4277793183d",
         "name": "Referral Peer Navigator Visit",
-        "encounterTypes": [
-          {
-            "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
-            "display": "PEERNAVIGATORINITIAL"
-          },
-          {
-            "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
-            "display": "PEERNAVIGATORFOLLOWUP"
-          }
-        ]
-      }
-    ]
-  },
-  "37ff4124-91fd-49e6-8261-057ccfb4fcd0": {
-    "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM",
-    "dataDependencies": [
-    ],
-    "incompatibleWith": [],
-    "visitTypes": [
-      {
-        "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
-        "name": "Cervical Cancer Screening ",
-        "encounterTypes": [
-          {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
-          },
-          {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
-          },
-          {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
-          },
-          {
-            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
-          },
-          {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
-          }
-        ]
-      },
-      {
-        "uuid": "55d8d186-3f74-43ad-9e40-eb16bb52b596",
-        "name": "Breast Cancer Screening ",
-        "encounterTypes": [
-          {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
-          },
-          {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
-          },
-          {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
-          },
-          {
-            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
-          },
-          {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
-          }
-        ]
-      },
-      {
-        "uuid": "9db78f11-3940-4048-acd0-645dd7184f4c",
-        "name": "Sickle Cell Screening ",
-        "encounterTypes": [
-          {
-            "uuid": "bb1ad67a-5363-42fd-a53e-ba0047eb431c",
-            "display": "SICKLECELLSCREENING"
-          }
-        ]
-      },
-      {
-        "uuid": "fe9c9cc2-5232-4255-be24-02eb975b03a8",
-        "name": "Lung Cancer Screening ",
-        "encounterTypes": [
-          {
-            "uuid": "7c21df85-c928-4dc9-93d9-5dd1e8101d32",
-            "display": "LUNGCANCERSCREENING"
-          },
-          {
-            "uuid": "c01fba63-0c54-43c9-8769-af7f48aefb5c",
-            "display": "LUNGCANCERSCREENINGRESULT"
-          }
+        "encounterTypes": [{
+          "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
+          "display": "PEERNAVIGATORINITIAL"
+        },
+        {
+          "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
+          "display": "PEERNAVIGATORFOLLOWUP"
+        }
         ]
       }
     ]

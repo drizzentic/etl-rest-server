@@ -132,7 +132,7 @@ function updatePatientReferralNotification(patientReferralId, newPatientReferral
                             });
                         })
                         .catch(function (err) {
-
+                            
                             reject('Error establishing connection to MySql Server to update the resource');
                         });
                 }

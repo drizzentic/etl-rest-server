@@ -25,7 +25,7 @@ export class PatientReferralService {
                     // TODO Do some post processing
                     results = results.results;
                     resolve(results);
-
+                    
                 }).catch((errors) => {
                 reject(errors);
             });

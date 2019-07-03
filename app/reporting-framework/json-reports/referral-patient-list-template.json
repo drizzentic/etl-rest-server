@@ -24,13 +24,13 @@
                 "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
             }
         },
-      {
-        "table": "amrs.person_attribute",
-        "alias": "contacts",
-        "join": {
-          "type": "LEFT",
-          "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
-        }
+        {
+            "table": "amrs.person_attribute",
+            "alias": "contacts",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
+            }
         }
     ],
     "columns": [
@@ -40,14 +40,14 @@
             "column": "t1.uuid"
         },
         {
-          "type": "derived_column",
-          "alias": "uuid",
-          "expressionType": "simple_expression",
-          "expressionOptions": {
-            "expression": "t1.uuid"
-          }
+            "type": "derived_column",
+            "alias": "uuid",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "t1.uuid"
+            }
         },
-      {
+        {
             "type": "simple_column",
             "alias": "person_id",
             "column": "t1.person_id"
@@ -63,14 +63,14 @@
             "column": "t1.birthdate"
         },
         {
-          "type": "derived_column",
-          "alias": "phone_number",
-          "expressionType": "simple_expression",
-          "expressionOptions": {
-            "expression": "if (contacts.value IS NULL, '', contacts.value)"
-          }
+            "type": "derived_column",
+            "alias": "phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (contacts.value IS NULL, '', contacts.value)"
+            }
         },
-      {
+        {
             "type": "derived_column",
             "alias": "age",
             "expressionType": "simple_expression",
@@ -83,7 +83,7 @@
             "alias": "person_name",
             "expressionType": "simple_expression",
             "expressionOptions": {
-              "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+                "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
             }
         },
         {
@@ -96,8 +96,6 @@
         }
     ],
     "groupBy":{
-      "columns": [
-        "t1.person_id"
-      ]
+        "columns":["t1.person_id"]
     }
 }

@@ -1,6 +1,6 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
-import {BaseMysqlReport} from '../../app/reporting-framework/base-mysql.report';
+import { BaseMysqlReport } from '../../app/reporting-framework/base-mysql.report';
 
 var Promise = require('bluebird');
 var noteService = require('../../service/notes.service');
@@ -519,7 +519,6 @@ module.exports = function () {
         }
         return db.queryDb(queryParts)
     }
-
     let generateMedsDataSet = ((data) => {
         let meds = [];
         const groupBy = key => array =>
@@ -535,9 +534,7 @@ module.exports = function () {
             _.each(encounterData, function (concepts) {
                 let oncMeds = {};
                 const i = groupBy('obs_group_id');
-                let plan = _.filter(concepts, function (o) {
-                    return o.concept_id == 9869
-                });
+                let plan = _.filter(concepts, function (o) { return o.concept_id == 9869 });
                 oncMeds.treatment_plan = plan;
                 _.remove(concepts, function (e) {
                     return e.obs_group_id == null;

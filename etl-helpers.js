@@ -1,6 +1,7 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
 var _ = require('underscore');
+var moment = require('moment');
 module.exports = function () {
 
     return {
@@ -241,7 +242,7 @@ module.exports = function () {
                 10206: "DURIE-SALMON SYSTEM",
                 9851: "STAGE 0",
                 9852: "STAGE I",
-                9853: "STAGE IA",
+                9853: "STAGE IA", 
                 9854: "STAGE IB",
                 9855: "STAGE IC",
                 9856: "STAGE II",
@@ -263,6 +264,7 @@ module.exports = function () {
                 6536: "GYNECOLOGIC CANCER TYPE",
                 7213: "MELPHALAN",
                 6485: "SARCOMA",
+                6537: "CERVICAL CANCER",
                 9918: "CHEMO MEDS",
                 8478: "IMATINIB",
                 7217: "PALLIATIVE TAMOXIFEN",
@@ -337,7 +339,6 @@ module.exports = function () {
                 7597: "SUBCUTANEOUS INJECTION",
                 7581: "INTRAMUSCULAR INJECTION",
                 7609: "INTRARTERIAL INJECTION",
-                7616: "INTRADERMAL INJECTION",
                 7447: "ORAL ADMINISTRATION",
                 6042: "DIAGNOSIS",
                 10129: "NON-SMALL CELL LUNG CANCER",
@@ -453,7 +454,6 @@ module.exports = function () {
             });
             return testsNames.join(",");
         },
-        
         getCDMNames: function getCDMNames(tests, str) {
             if (str === null || str === undefined) return "";
             /*var tests = {

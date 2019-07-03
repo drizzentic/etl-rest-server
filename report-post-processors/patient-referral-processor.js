@@ -79,7 +79,7 @@ function groupResultsByLocation(arrayOfResults) {
             locationUuids: result.locationUuids,
             program: result.program,
             programUuids: result.programUuids
-        };
+        }
         grouped[result.location_id].programs.push(prog);
     });
 

@@ -30,39 +30,92 @@ var programVisitEncounterResolver = require('./resolve-program-visit-encounter-I
 var imagingService = require('./service/radilogy-imaging.service');
 var oncologyReportsService = require('./oncology-reports/oncology-reports-service');
 var pocEidPayloadHelper = require('./app/lab-integration/utils/poc-eid-payload-helper.js');
-import {LabSyncService} from './app/lab-integration/lab-sync-service';
-import {LabClient} from './app/lab-integration/utils/lab-client';
-import {MonthlyScheduleService} from './service/monthly-schedule-service';
-import {PatientStatusChangeTrackerService} from './service/patient-status-change-tracker-service';
-import {clinicalArtOverviewService} from './service/clinical-art-overview.service';
-import {labOrdersService} from './service/lab-orders.service';
+import { LabSyncService } from './app/lab-integration/lab-sync-service';
+import { LabClient } from './app/lab-integration/utils/lab-client';
+import {
+    MonthlyScheduleService
+} from './service/monthly-schedule-service';
+import {
+    PatientStatusChangeTrackerService
+} from './service/patient-status-change-tracker-service';
+import {
+    clinicalArtOverviewService
+} from './service/clinical-art-overview.service';
+import { labOrdersService } from './service/lab-orders.service';
 
-import {hivComparativeOverviewService} from './service/hiv-comparative-overview.service';
-import {clinicalPatientCareStatusOverviewService} from './service/clinical-patient-care-status-overview';
-import {SlackService} from './service/slack-service';
-import {PatientRegisterReportService} from './service/patient-register-report.service';
-import {HivSummaryIndicatorsService} from './app/reporting-framework/hiv/hiv-summary-indicators.service';
-import {HivSummaryMonthlyIndicatorsService} from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
-import {PatientMonthlyStatusHistory} from './service/patient-monthly-status-history';
-import {cohortUserService} from './service/cohort-user.service.js';
-import {patientsRequiringVLService} from './service/patients-requiring-viral-load.service';
-import {patientCareCascadeService} from './service/patient-care-cascade-report.service';
-import {patientMedicationHistService} from './service/patient-medication-history.service';
-import {PatientMedicalHistoryService} from './service/patient-medical-history.service';
-
-import {Moh731Report} from './app/reporting-framework/hiv/moh-731.report';
-import {BreastCancerMonthlySummaryService} from './service/breast-cancer-monthly-summary.service';
-import {CervicalCancerMonthlySummaryService} from './service/cervical-cancer-monthly-summary.service';
-
-import {LungCancerMonthlySummaryService} from './service/lung-cancer-monthly-summary.service';
-import {PatientlistMysqlReport} from './app/reporting-framework/patientlist-mysql.report';
-import {BaseMysqlReport} from './app/reporting-framework/base-mysql.report';
-import {CDMReportingService} from './service/cdm/cdm-reporting.service';
-import {PatientReferralService} from './service/patient-referral.service';
-import {CombinedBreastCervicalCancerMonthlySummary} from './service/combined-breast-cervical-cancer-monthly-summary.service';
-import {LungCancerTreatmentSummary} from './service/lung-cancer-treatment-summary.service';
-
+import {
+    hivComparativeOverviewService
+} from './service/hiv-comparative-overview.service';
+import {
+    clinicalPatientCareStatusOverviewService
+} from './service/clinical-patient-care-status-overview';
+import {
+    SlackService
+} from './service/slack-service';
+import {
+    Moh731Service
+} from './service/moh-731/moh-731.service';
+import {
+    PatientRegisterReportService
+} from './service/patient-register-report.service';
+import {
+    HivSummaryIndicatorsService
+} from './app/reporting-framework/hiv/hiv-summary-indicators.service';
+import {
+    HivSummaryMonthlyIndicatorsService
+} from './app/reporting-framework/hiv/hiv-summary-monthly-indicators.service';
+import {
+    PatientMonthlyStatusHistory
+} from './service/patient-monthly-status-history';
+import {
+    cohortUserService
+} from './service/cohort-user.service.js';
+import {
+    patientsRequiringVLService
+} from './service/patients-requiring-viral-load.service';
+import {
+    patientCareCascadeService
+} from './service/patient-care-cascade-report.service';
 var patientReminderService = require('./service/patient-reminder.service.js');
+import {
+    patientMedicationHistService
+} from './service/patient-medication-history.service';
+import {
+    PatientMedicalHistoryService
+} from './service/patient-medical-history.service';
+
+import {
+    Moh731Report
+} from './app/reporting-framework/hiv/moh-731.report';
+import {
+    BreastCancerMonthlySummaryService
+} from './service/breast-cancer-monthly-summary.service';
+import {
+    CervicalCancerMonthlySummaryService
+} from './service/cervical-cancer-monthly-summary.service';
+
+import {
+    LungCancerMonthlySummaryService
+} from './service/lung-cancer-monthly-summary.service';
+import {
+    PatientlistMysqlReport
+} from './app/reporting-framework/patientlist-mysql.report';
+import {
+    BaseMysqlReport
+} from './app/reporting-framework/base-mysql.report';
+import {
+    CDMReportingService
+} from './service/cdm/cdm-reporting.service';
+import {
+    PatientReferralService
+} from './service/patient-referral.service';
+import { 
+    CombinedBreastCervicalCancerMonthlySummary 
+} from './service/combined-breast-cervical-cancer-monthly-summary.service';
+import {
+     LungCancerTreatmentSummary
+     } from './service/lung-cancer-treatment-summary.service';
+var  kibanaService = require('./service/kibana.service');
 
 
 module.exports = function () {
@@ -136,6 +189,7 @@ module.exports = function () {
                                     dao.runReport(reportParams).then((result) => {
                                         _.each(result.result, (row) => {
                                             row.order_type = etlHelpers.getTestsOrderedNames(row.order_type);
+                                            row.cur_meds = etlHelpers.getARVNames(row.cur_meds);
                                         });
                                         reply(result);
                                     }).catch((error) => {
@@ -316,7 +370,7 @@ module.exports = function () {
                                 .then((result) => {
                                     let locationIds = result;
                                     request.query.locations = locationIds;
-                                    let combineRequestParams = Object.assign(request.query, request.params);
+                                    let combineRequestParams = Object.assign(request.query, request.params)
                                     let service = new MonthlyScheduleService();
                                     service.getMonthlyScheduled(combineRequestParams).then((result) => {
                                         reply(result);
@@ -381,6 +435,9 @@ module.exports = function () {
                                                 returnedResult.schemas = result.schemas;
                                                 returnedResult.sqlQuery = result.sqlQuery;
                                                 returnedResult.result = result.results.results;
+                                                _.each(returnedResult.result, (item) => {
+                                                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                                });
                                                 reply(returnedResult);
                                             }).catch((error) => {
                                                 reply(error);
@@ -439,6 +496,9 @@ module.exports = function () {
                                                 returnedResult.schemas = result.schemas;
                                                 returnedResult.sqlQuery = result.sqlQuery;
                                                 returnedResult.result = result.results.results;
+                                                _.each(returnedResult.result, (item) => {
+                                                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                                });
                                                 reply(returnedResult);
                                             }).catch((error) => {
                                                 reply(error);
@@ -500,6 +560,9 @@ module.exports = function () {
                                                 returnedResult.schemas = result.schemas;
                                                 returnedResult.sqlQuery = result.sqlQuery;
                                                 returnedResult.result = result.results.results;
+                                                _.each(returnedResult.result, (item) => {
+                                                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                                });
                                                 reply(returnedResult);
                                             }).catch((error) => {
                                                 reply(error);
@@ -673,7 +736,7 @@ module.exports = function () {
                     },
                     handler: function (request, reply) {
                         let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
-                        EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
+                        EIDLabReminderService.pendingEIDReminders(request.params, config.hivLabSystem)
                             .then((eidReminders) => {
                                 let combineRequestParams = Object.assign({}, request.query, request.params);
                                 combineRequestParams.limitParam = 1;
@@ -969,7 +1032,17 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        dao.getPatientHivSummary(request, reply);
+                        console.log('get hiv summary');
+                        dao.getPatientHivSummary(request)
+                        .then(summary => {
+                            // console.log('Summary', summary);
+                            if(summary.result && summary.result.length > 0){
+                                const transformed = etlHelpers.transformMedicalRefillToClinical(summary.result);
+                                summary.result = transformed;
+                            }
+                            reply(summary);
+                        });
+                        
                     },
                     description: 'Get patient HIV summary',
                     notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
@@ -1258,6 +1331,9 @@ module.exports = function () {
                                 requestParams.offSetParam = requestParams.startIndex;
                                 let service = new hivComparativeOverviewService();
                                 service.getPatientListReport(requestParams).then((result) => {
+                                    _.each(result.result, (item) => {
+                                        item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                    });
                                     reply(result);
                                 }).catch((error) => {
                                     reply(error);
@@ -2466,6 +2542,9 @@ module.exports = function () {
                                     let requestParams = Object.assign({}, request.query, request.params);
                                     let service = new PatientStatusChangeTrackerService();
                                     service.getPatientListReport(requestParams).then((result) => {
+                                        _.each(result.result, (item) => {
+                                            item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                        });
                                         reply(result);
                                     }).catch((error) => {
                                         reply(error);
@@ -2718,7 +2797,7 @@ module.exports = function () {
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
                                 }).catch((error) => {
-                                    console.error('Error loading HIV Summary:', error);
+                                    console.error('Error loading HIV Summary:', error)
                                     reply(error);
                                 });
                             });
@@ -2776,6 +2855,9 @@ module.exports = function () {
                         let requestParams = Object.assign({}, request.query, request.params);
                         let service = new HivSummaryIndicatorsService();
                         service.getPatientListReport(requestParams).then((result) => {
+                            _.each(result.result, (item) => {
+                                item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                            });
                             reply(result);
                         }).catch((error) => {
                             reply(error);
@@ -3322,7 +3404,7 @@ module.exports = function () {
                             }).then((result)=>{
                                 reply(result);
                             }).catch((error) => {
-                                let errorObject = JSON.parse(error.error);
+                                let errorObject = JSON.parse(error.error)
                                 console.error('Error',errorObject);
                                 reply(errorObject.error).code(error.statusCode);
                             });
@@ -3552,6 +3634,9 @@ module.exports = function () {
                                 let requestParams = Object.assign({}, request.query, request.params);
                                 let service = new patientsRequiringVLService();
                                 service.getPatientListReport(requestParams).then((result) => {
+                                    _.each(result.result, (item) => {
+                                        item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                    });
                                     reply(result);
                                 }).catch((error) => {
                                     reply(error);
@@ -3910,6 +3995,9 @@ module.exports = function () {
                                         request.query.programTypeIds = programTypeIds;
                                         enrollmentService.getActiveProgramEnrollmentsPatientList(request.query)
                                             .then((result) => {
+                                                _.each(result.result, (item) => {
+                                                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                                });
                                                 reply(result);
 
                                             }).catch((error) => {
@@ -4459,6 +4547,32 @@ module.exports = function () {
                     },
                     description: 'Get Lung cancer treatment monthly patient list based on location and time filters',
                     notes: 'Returns details of patients who underwent lung cancer treatment',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
+                path: '/etl/kibana-dashboards',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        }
+                    },
+                    handler: function (request, reply) {
+                        
+                        let kibanaDashboard = kibanaService.getKibanaDashboards().then((result) => {
+                                    console.log('Kibana Dashboard', result);
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+
+                    },
+                    description: 'Get a list of Kibana Dashboards',
+                    notes: 'Returns a list of links for Kibana Dashboards',
                     tags: ['api'],
                 }
 
